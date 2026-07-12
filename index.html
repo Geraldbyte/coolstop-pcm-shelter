@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoolStop — PCM Bus Shelter · James Dyson Award 2026</title>
+<meta name="description" content="A bus shelter roof and bench infused with a natural wax that absorbs heat as it melts, keeping commuters cooler without electricity or moving parts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ECF3F0;
+  --ink:#0C2E2B;
+  --ink-soft:#3C5A55;
+  --panel:#FBFDFC;
+  --line:#C6D8D1;
+  --heat:#E88A1A;
+  --heat-deep:#C4530F;
+  --wax:#F3D9A6;
+  --aqua:#BEDFD6;
+  --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  font-size:17px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--heat);outline-offset:3px;border-radius:4px}
+
+/* ---------- top bar ---------- */
+header{
+  border-bottom:1px solid var(--line);
+  background:var(--bg);
+}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.wordmark{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 118,'wght' 850;
+  font-size:1.35rem;letter-spacing:-0.02em;text-decoration:none;
+}
+.wordmark .dot{color:var(--heat)}
+.bar .tag{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.08em;
+  color:var(--ink-soft);text-transform:uppercase;
+}
+
+/* ---------- hero ---------- */
+.hero{padding:72px 0 56px;border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:.74rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--heat-deep);margin-bottom:18px;
+}
+h1{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 112,'wght' 880;
+  font-size:clamp(2.6rem,6vw,4.3rem);
+  line-height:.98;letter-spacing:-0.025em;
+  margin-bottom:22px;
+}
+h1 em{font-style:normal;color:var(--heat-deep)}
+.hero p.lede{font-size:1.14rem;color:var(--ink-soft);max-width:32em}
+.readouts{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
+.readouts span{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.06em;
+  border:1px solid var(--line);background:var(--panel);
+  padding:8px 13px;border-radius:999px;color:var(--ink);
+}
+.readouts span::before{content:'●';color:var(--heat);margin-right:8px;font-size:.6rem;vertical-align:1px}
+
+/* ---------- plateau chart (signature) ---------- */
+.chartcard{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 22px 14px;
+}
+.chartcard .chead{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px;
+}
+.legend{display:flex;gap:16px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--ink-soft);margin-top:8px;flex-wrap:wrap}
+.legend i{display:inline-block;width:18px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.legend .k-heat i{background:var(--heat)}
+.legend .k-cool i{background:var(--ink)}
+svg text{font-family:'IBM Plex Mono',monospace}
+.trace{fill:none;stroke-width:3.5;stroke-linecap:round}
+.trace.control{stroke:var(--heat)}
+.trace.pcm{stroke:var(--ink)}
+.drawable{stroke-dasharray:620;stroke-dashoffset:620;transition:stroke-dashoffset 2.4s ease .2s}
+.drawable.pcm{transition-delay:.6s}
+.in-view .drawable{stroke-dashoffset:0}
+@media (prefers-reduced-motion:reduce){
+  .drawable{stroke-dashoffset:0;transition:none}
+}
+
+/* ---------- sections ---------- */
+section{padding:72px 0;border-bottom:1px solid var(--line)}
+.sec-eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--heat-deep);margin-bottom:14px;
+}
+h2{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 112,'wght' 830;
+  font-size:clamp(1.7rem,3.4vw,2.5rem);line-height:1.05;letter-spacing:-0.02em;
+  margin-bottom:20px;max-width:20em;
+}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+p + p{margin-top:1em}
+.muted{color:var(--ink-soft)}
+
+/* physics steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px}
+.step{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 18px;
+}
+.step .n{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.1em;
+  color:var(--heat-deep);display:block;margin-bottom:10px;text-transform:uppercase;
+}
+.step h3{font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 108,'wght' 750;font-size:1.02rem;margin-bottom:8px;letter-spacing:-.01em}
+.step p{font-size:.9rem;color:var(--ink-soft);line-height:1.55}
+.ice-note{
+  margin-top:28px;padding:18px 22px;border-left:4px solid var(--heat);
+  background:var(--wax);border-radius:0 var(--radius) var(--radius) 0;
+  font-size:.98rem;max-width:46em;
+}
+
+/* tables */
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;font-size:.93rem}
+table{display:block;overflow-x:auto}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;min-width:150px}
+th{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);background:var(--bg)}
+tr:last-child td{border-bottom:none}
+td.win{background:var(--wax);font-weight:600}
+.x{color:var(--heat-deep);font-family:'IBM Plex Mono',monospace;font-size:.8rem;margin-right:6px}
+.ok{color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:.8rem;margin-right:6px}
+
+/* process timeline */
+.timeline{margin-top:32px;display:grid;gap:0}
+.tl-item{display:grid;grid-template-columns:150px 1fr;gap:26px;padding:22px 0;border-top:1px solid var(--line)}
+.tl-item:first-child{border-top:none}
+.tl-item .when{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);padding-top:4px}
+.tl-item h3{font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 108,'wght' 750;font-size:1.08rem;margin-bottom:6px;letter-spacing:-.01em}
+.tl-item p{font-size:.95rem;color:var(--ink-soft)}
+.badge{
+  display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.08em;
+  text-transform:uppercase;padding:3px 9px;border-radius:999px;margin-left:8px;vertical-align:2px;
+  background:var(--heat);color:#fff;
+}
+.badge.done{background:var(--ink)}
+
+/* status / footer */
+.status{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 28px;margin-top:36px;max-width:56em;
+}
+.status .chead{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--heat-deep);margin-bottom:10px}
+footer{padding:44px 0 60px}
+footer .frow{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:baseline}
+footer .fm{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.08em;color:var(--ink-soft);text-transform:uppercase}
+
+@media(max-width:840px){
+  .hero-grid{grid-template-columns:1fr;gap:36px}
+  .cols{grid-template-columns:1fr;gap:20px}
+  .steps{grid-template-columns:1fr 1fr}
+  section{padding:52px 0}
+  .tl-item{grid-template-columns:1fr;gap:6px}
+}
+@media(max-width:520px){
+  .steps{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="wordmark" href="#top">CoolStop<span class="dot">.</span></a>
+    <span class="tag">Team 06 · James Dyson Award 2026 · Singapore</span>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Passive-cooled bus shelter · phase-change material</p>
+        <h1>Cooler, <em>by melting.</em></h1>
+        <p class="lede">A bus shelter roof and bench infused with a natural coconut-and-palm wax that absorbs heat as it melts — keeping commuters cooler with no electricity and no moving parts.</p>
+        <div class="readouts">
+          <span>No power source</span>
+          <span>No moving parts</span>
+          <span>No consumables</span>
+        </div>
+      </div>
+
+      <!-- Signature: melt plateau chart -->
+      <figure class="chartcard" id="plateau" aria-label="Chart comparing surface temperature over time: a conventional surface climbs steadily, while the CoolStop PCM panel flattens into a melt plateau.">
+        <div class="chead"><span>Surface temp vs. time</span><span>heat-lamp model*</span></div>
+        <svg viewBox="0 0 460 260" role="img" aria-hidden="true">
+          <!-- grid -->
+          <g stroke="#C6D8D1" stroke-width="1">
+            <line x1="48" y1="30"  x2="440" y2="30"/>
+            <line x1="48" y1="90"  x2="440" y2="90"/>
+            <line x1="48" y1="150" x2="440" y2="150"/>
+            <line x1="48" y1="210" x2="440" y2="210"/>
+          </g>
+          <!-- axes -->
+          <line x1="48" y1="20" x2="48" y2="210" stroke="#0C2E2B" stroke-width="2"/>
+          <line x1="48" y1="210" x2="440" y2="210" stroke="#0C2E2B" stroke-width="2"/>
+          <text x="10" y="26" font-size="11" fill="#3C5A55">T°C</text>
+          <text x="418" y="236" font-size="11" fill="#3C5A55">time</text>
+          <!-- control trace: climbs steadily -->
+          <path class="trace control drawable" d="M48,200 C120,170 200,110 290,66 C340,42 390,32 436,28"/>
+          <!-- pcm trace: climbs then plateaus -->
+          <path class="trace pcm drawable" d="M48,200 C110,178 160,150 200,132 C250,110 300,104 350,102 C385,101 415,100 436,99"/>
+          <!-- plateau annotation -->
+          <line x1="220" y1="103" x2="436" y2="103" stroke="#3C5A55" stroke-width="1" stroke-dasharray="4 4"/>
+          <text x="228" y="128" font-size="11" fill="#0C2E2B" font-weight="500">melt plateau</text>
+          <text x="228" y="143" font-size="10" fill="#3C5A55">heat absorbed by melting wax</text>
+        </svg>
+        <div class="legend">
+          <span class="k-heat"><i></i>conventional surface</span>
+          <span class="k-cool"><i></i>CoolStop PCM panel</span>
+        </div>
+        <figcaption class="chead" style="margin-top:10px">*illustrative — measured curves published after Track 1 testing</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <section id="problem">
+    <div class="wrap">
+      <p class="sec-eyebrow">The problem</p>
+      <h2>Waiting at a Singapore bus stop is a heat problem.</h2>
+      <div class="cols">
+        <p>Bus stops can exceed comfortable temperatures during long waiting periods. Standard shelter materials — sheet-metal roofs, metal and plastic benches — heat up immediately under solar load and radiate that heat straight back at the people waiting beneath them.</p>
+        <p class="muted">Cooling trials have been run at Singapore bus stops before — Airbitat, Sol-Cool, and LTA fan trials — but every one of them is <strong>active</strong>: fans, misting, or refrigerant systems that need power, water, and maintenance at every single stop. That recurring burden is exactly what limits them from scaling across the island's bus stop network.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHYSICS -->
+  <section id="physics">
+    <div class="wrap">
+      <p class="sec-eyebrow">The physics</p>
+      <h2>Heat that melts wax can't heat the bench.</h2>
+      <p class="muted" style="max-width:46em">CoolStop's roof and bench panels contain a sealed layer of a coconut-and-palm wax blend, with a melting point tuned to sit near Singapore's hot-weather ambient temperature — so it switches on precisely during the hottest part of the day.</p>
+
+      <div class="steps">
+        <div class="step">
+          <span class="n">Stage · Morning</span>
+          <h3>Solid wax, cool panel</h3>
+          <p>The panel starts the day with the wax fully solid, behaving like any shelter surface as temperatures rise.</p>
+        </div>
+        <div class="step">
+          <span class="n">Stage · Melt onset</span>
+          <h3>Latent heat kicks in</h3>
+          <p>At the tuned melting point, incoming heat is spent breaking the wax's solid structure instead of raising its temperature.</p>
+        </div>
+        <div class="step">
+          <span class="n">Stage · Peak heat</span>
+          <h3>The melt plateau</h3>
+          <p>While melting, the surface holds a lower, near-constant temperature — instead of climbing the way bare metal does.</p>
+        </div>
+        <div class="step">
+          <span class="n">Stage · Overnight</span>
+          <h3>Reset by sunset</h3>
+          <p>After dark, the wax releases stored heat and re-solidifies, ready to absorb the next day's peak all over again.</p>
+        </div>
+      </div>
+
+      <div class="ice-note">
+        It's the same reason a glass of ice water stays at 0&nbsp;°C until the last ice melts — latent heat absorption — shifted to a melting point that's useful at bus-stop temperatures.
+      </div>
+    </div>
+  </section>
+
+  <!-- MATERIAL -->
+  <section id="material">
+    <div class="wrap">
+      <p class="sec-eyebrow">Why this material</p>
+      <h2>Six concepts in, one survived Singapore's constraints.</h2>
+      <p class="muted" style="max-width:46em;margin-bottom:28px">Every concept was tested against two hard filters: real local sourcing (deployment-grade materials, not lab proxies — a supervisor requirement) and physical viability under Singapore's humidity and HDB shadow conditions.</p>
+      <table>
+        <thead><tr><th>Concept</th><th>Why it was ruled out</th></tr></thead>
+        <tbody>
+          <tr><td><span class="x">✕</span>Mist fans (solar pump)</td><td>Already trialled in Singapore (Airbitat, Sol-Cool); active system with power and maintenance burden</td></tr>
+          <tr><td><span class="x">✕</span>Sun-tracking reflective panels</td><td>Limited under HDB shadow conditions; introduces moving parts</td></tr>
+          <tr><td><span class="x">✕</span>Electrochromic smart glass</td><td>True electrochromic film unsourceable locally — only PDLC available</td></tr>
+          <tr><td><span class="x">✕</span>Venturi / thermal-chimney geometry</td><td>Undermined by Singapore's humidity and low-wind conditions</td></tr>
+          <tr><td><span class="x">✕</span>Salt-hydrate PCM (Glauber's salt)</td><td>Sodium sulfate decahydrate unsourceable locally in usable form</td></tr>
+          <tr><td class="win"><span class="ok">✓</span>Coconut + palm wax PCM blend</td><td class="win">Locally sourceable with multi-day SG delivery; deployment-grade; melting point in the useful range</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- DIFFERENT -->
+  <section id="different">
+    <div class="wrap">
+      <p class="sec-eyebrow">How it's different</p>
+      <h2>Active systems cool one stop. Passive panels can cool a network.</h2>
+      <table>
+        <thead><tr><th></th><th>Active trials (Airbitat · Sol-Cool · LTA fans)</th><th>CoolStop</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Energy input</strong></td><td>Electricity required at every stop</td><td class="win">None</td></tr>
+          <tr><td><strong>Moving parts</strong></td><td>Fans and pumps</td><td class="win">None</td></tr>
+          <tr><td><strong>Consumables</strong></td><td>Water for misting / refrigerant</td><td class="win">None</td></tr>
+          <tr><td><strong>Ongoing cost</strong></td><td>Power plus scheduled maintenance</td><td class="win">Passive material, minimal upkeep</td></tr>
+          <tr><td><strong>Path to scale</strong></td><td>New infrastructure per stop</td><td class="win">Panel integration into existing shelter forms</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="wrap">
+      <p class="sec-eyebrow">Design process &amp; roadmap</p>
+      <h2>Material first. Geometry second. Deliberately.</h2>
+      <p class="muted" style="max-width:46em">We are holding the shelter's PCM cavity thickness open in CAD until the material data exists — to avoid locking in a design before the wax's real behaviour is confirmed.</p>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="when">Phase 01</div>
+          <div>
+            <h3>Concept exploration <span class="badge done">complete</span></h3>
+            <p>Surveyed active cooling approaches — misting, reflective tracking, electrochromic glazing, chimney-effect geometry — and eliminated each on sourcing feasibility or physics under local conditions.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="when">Phase 02</div>
+          <div>
+            <h3>Phenomenon &amp; material selection <span class="badge done">complete</span></h3>
+            <p>Pivoted from moving heat away to absorbing heat in place via latent heat; confirmed a locally sourceable coconut/palm wax blend with a melting point near hot-weather ambient temperature.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="when">Track 1</div>
+          <div>
+            <h3>Material characterisation <span class="badge">in progress</span></h3>
+            <p>Heat-lamp and thermocouple testing of a sealed wax panel against a control surface — measuring melt onset temperature, plateau temperature and duration, temperature differential versus control, and overnight recovery time.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="when">Track 2</div>
+          <div>
+            <h3>Shelter design in SolidWorks <span class="badge">in progress</span></h3>
+            <p>Modelling to standard Singapore bus stop dimensions, with PCM cavity thickness held open pending Track 1 results.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="when">Next</div>
+          <div>
+            <h3>Full-scale panel &amp; field testing</h3>
+            <p>Prototype panel under real sun exposure; validate day–night thermal cycling — specifically whether the wax fully re-solidifies overnight to sustain cooling on consecutive hot days.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="when">Goal</div>
+          <div>
+            <h3>Live bus stop pilot</h3>
+            <p>Approach LTA or transport operators about pilot deployment at an operational bus stop.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="status">
+        <div class="chead">A note on numbers</div>
+        <p style="font-size:.97rem">This page deliberately shows no measured temperatures yet. Quantitative results — melt plateau temperature, differential versus a control surface, and plateau duration under heat-lamp conditions — will be published here the moment Track 1 characterisation is complete. We would rather report real data late than illustrative data early.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap frow">
+    <span class="fm">CoolStop · PCM Bus Shelter</span>
+    <span class="fm">Team 06 · RSE3106 SEP2</span>
+    <span class="fm">James Dyson Award 2026 · Singapore entry</span>
+  </div>
+</footer>
+
+<script>
+// Draw the plateau traces when the chart scrolls into view
+(function(){
+  var card = document.getElementById('plateau');
+  if(!card) return;
+  if(!('IntersectionObserver' in window)){ card.classList.add('in-view'); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ card.classList.add('in-view'); io.disconnect(); }
+    });
+  },{threshold:0.4});
+  io.observe(card);
+})();
+</script>
+
+</body>
+</html>
