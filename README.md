@@ -47,10 +47,10 @@ Local sourcing was a hard requirement from our supervisor: the prototype must us
 1. **Concept exploration** — surveyed active cooling approaches (misting, reflective tracking, electrochromic glazing, chimney-effect geometry) and eliminated each on sourcing feasibility or physical limitations under Singapore conditions.
 2. **Phenomenon selection** — pivoted from *moving heat away* to *absorbing heat in place* via latent heat, inspired by the constant temperature of melting ice.
 3. **Material selection** — confirmed a coconut/palm wax blend with local sourcing and a melting point near hot-weather ambient temperature.
-4. **Track 1: material characterisation (complete)** — heat lamp + thermocouple testing of a sealed wax panel against a control surface, measuring melt onset temperature, plateau temperature and duration, temperature differential vs control, and overnight recovery time.
-5. **Track 2: shelter design (complete)** — SolidWorks model using standard Singapore bus stop dimensions, with PCM cavity thickness finalised once Track 1 results confirmed the material behaviour.
+4. **Track 1: material characterisation** — heat lamp + thermocouple testing of a sealed wax panel against a control surface, measuring melt onset temperature, plateau temperature and duration, temperature differential vs control, and overnight recovery time.
+5. **Track 2: shelter design** — SolidWorks model using standard Singapore bus stop dimensions, with PCM cavity thickness finalised once Track 1 results confirmed the material behaviour.
 
-> **Status note:** Track 1 heat-lamp testing is complete. Quantitative results (plateau temperature, differential vs control, plateau duration) are being written up and will be published here shortly.
+> **Status note:** quantitative results (plateau temperature, differential vs control, plateau duration) will be published here.
 
 ## How it's different
 
@@ -64,12 +64,12 @@ Local sourcing was a hard requirement from our supervisor: the prototype must us
 
 ## Roadmap
 
-- [x] Complete Track 1 heat-lamp / thermocouple characterisation (melt onset, plateau, differential, recovery)
-- [x] Finalise PCM cavity thickness in the SolidWorks shelter model
-- [ ] Build a full-scale prototype panel
-- [ ] Outdoor field testing under real sun exposure
-- [ ] Validate day–night thermal cycling (full overnight re-solidification on consecutive hot days)
-- [ ] Approach LTA / transport operators for a live bus stop pilot
+- Complete Track 1 heat-lamp / thermocouple characterisation (melt onset, plateau, differential, recovery)
+- Finalise PCM cavity thickness in the SolidWorks shelter model
+- Build a full-scale prototype panel
+- Outdoor field testing under real sun exposure
+- Validate day–night thermal cycling (full overnight re-solidification on consecutive hot days)
+- Approach LTA / transport operators for a live bus stop pilot
 
 ## Repository structure
 
