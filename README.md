@@ -47,10 +47,26 @@ Local sourcing was a hard requirement from our supervisor: the prototype must us
 1. **Concept exploration** — surveyed active cooling approaches (misting, reflective tracking, electrochromic glazing, chimney-effect geometry) and eliminated each on sourcing feasibility or physical limitations under Singapore conditions.
 2. **Phenomenon selection** — pivoted from *moving heat away* to *absorbing heat in place* via latent heat, inspired by the constant temperature of melting ice.
 3. **Material selection** — confirmed a coconut/palm wax blend with local sourcing and a melting point near hot-weather ambient temperature.
-4. **Track 1: material characterisation** — heat lamp + thermocouple testing of a sealed wax panel against a control surface, measuring melt onset temperature, plateau temperature and duration, temperature differential vs control, and overnight recovery time.
+4. **Track 1: material characterisation** — side-by-side outdoor testing of a sealed wax panel against an identical control panel under direct sun, with paired sensors logging surface temperature every 15 seconds (see Field test results below).
 5. **Track 2: shelter design** — SolidWorks model using standard Singapore bus stop dimensions, with PCM cavity thickness finalised once Track 1 results confirmed the material behaviour.
 
-> **Status note:** quantitative results (plateau temperature, differential vs control, plateau duration) will be published here.
+## Field test results (5 July 2026)
+
+Two identical panel housings — one containing the sealed coconut/palm wax blend, one empty control — were placed side by side under direct early-afternoon sun in Singapore, with surface temperatures logged every 15 seconds by paired sensors on a microcontroller datalogger (~20.5 minutes, 83 paired readings).
+
+| Metric | Result |
+|---|---|
+| Peak control panel surface temperature | 50.7 °C |
+| Peak PCM panel surface temperature | **41.6 °C (9.1 °C cooler)** |
+| PCM advantage across the heating phase | 6.4–10.6 °C cooler (mean 8.5 °C) |
+| PCM heating rate below ~40 °C | 0.88 °C/min |
+| PCM heating rate above ~40 °C | 0.20 °C/min — slowdown consistent with melt onset |
+| Cooldown behaviour | PCM cooled more slowly and crossed the control at ~15 min, releasing stored latent heat (needed for overnight reset) |
+| Independent spot-check | IR thermometer read 51.1 °C on the control side, matching the logged 50.7 °C peak |
+
+**Raw data:** [`testing/field-test-2026-07-05.csv`](testing/field-test-2026-07-05.csv) · **Photo:** [`media/field-test-photo.jpg`](media/field-test-photo.jpg) · **Video:** [`media/field-test-video.mp4`](media/field-test-video.mp4)
+
+*Honest caveat: the control panel was already warmer at the first logged reading, so we lead with the peak-to-peak comparison, which is unaffected by starting conditions.*
 
 ## How it's different
 
@@ -77,8 +93,8 @@ Local sourcing was a hard requirement from our supervisor: the prototype must us
 ├── README.md          # This document
 ├── index.html         # Project website (GitHub Pages)
 ├── cad/               # SolidWorks shelter model
-├── testing/           # Track 1 heat-lamp test data & analysis
-└── media/             # Photos, sketches, renders
+├── testing/           # Field test data (CSV, 15 s interval logs)
+└── media/             # Field test photo, video, and poster frame
 ```
 
 ## Team
