@@ -94,7 +94,7 @@ svg text{font-family:'IBM Plex Mono',monospace}
 .trace{fill:none;stroke-width:3.5;stroke-linecap:round}
 .trace.control{stroke:var(--heat)}
 .trace.pcm{stroke:var(--ink)}
-.drawable{stroke-dasharray:620;stroke-dashoffset:620;transition:stroke-dashoffset 2.4s ease .2s}
+.drawable{stroke-dasharray:520;stroke-dashoffset:520;transition:stroke-dashoffset 2.4s ease .2s}
 .drawable.pcm{transition-delay:.6s}
 .in-view .drawable{stroke-dashoffset:0}
 @media (prefers-reduced-motion:reduce){
@@ -159,6 +159,19 @@ td.win{background:var(--wax);font-weight:600}
 }
 .badge.done{background:var(--ink)}
 
+/* results */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px}
+.stat .big{font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 112,'wght' 850;font-size:2rem;letter-spacing:-.02em;color:var(--heat-deep);line-height:1;margin-bottom:8px}
+.stat .big.cool{color:var(--ink)}
+.stat p{font-size:.86rem;color:var(--ink-soft);line-height:1.5}
+.media-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px}
+.media-grid figure{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:0}
+.media-grid img,.media-grid video{display:block;width:100%;height:auto}
+.media-grid figcaption{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);padding:12px 16px}
+@media(max-width:840px){.stats{grid-template-columns:1fr 1fr}.media-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.stats{grid-template-columns:1fr}}
+
 /* status / footer */
 .status{
   background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
@@ -207,35 +220,41 @@ footer .fm{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing
       </div>
 
       <!-- Signature: melt plateau chart -->
-      <figure class="chartcard" id="plateau" aria-label="Chart comparing surface temperature over time: a conventional surface climbs steadily, while the CoolStop PCM panel flattens into a melt plateau.">
-        <div class="chead"><span>Surface temp vs. time</span><span>heat-lamp model*</span></div>
+      <figure class="chartcard" id="plateau" aria-label="Measured chart from the 5 July 2026 outdoor solar test: the control panel climbs to 50.7 degrees Celsius while the CoolStop PCM panel peaks at 41.6 degrees, 9.1 degrees cooler.">
+        <div class="chead"><span>Surface temp vs. time · measured</span><span>outdoor solar test · 05 Jul 2026</span></div>
         <svg viewBox="0 0 460 260" role="img" aria-hidden="true">
           <!-- grid -->
           <g stroke="#C6D8D1" stroke-width="1">
-            <line x1="48" y1="30"  x2="440" y2="30"/>
-            <line x1="48" y1="90"  x2="440" y2="90"/>
-            <line x1="48" y1="150" x2="440" y2="150"/>
-            <line x1="48" y1="210" x2="440" y2="210"/>
+            <line x1="48" y1="48.9"  x2="440" y2="48.9"/>
+            <line x1="48" y1="96.3"  x2="440" y2="96.3"/>
+            <line x1="48" y1="143.7" x2="440" y2="143.7"/>
+            <line x1="48" y1="191.1" x2="440" y2="191.1"/>
+          </g>
+          <g font-size="10" fill="#3C5A55">
+            <text x="24" y="52.4">50</text>
+            <text x="24" y="99.8">45</text>
+            <text x="24" y="147.2">40</text>
+            <text x="24" y="194.6">35</text>
           </g>
           <!-- axes -->
           <line x1="48" y1="20" x2="48" y2="210" stroke="#0C2E2B" stroke-width="2"/>
           <line x1="48" y1="210" x2="440" y2="210" stroke="#0C2E2B" stroke-width="2"/>
           <text x="10" y="26" font-size="11" fill="#3C5A55">T°C</text>
-          <text x="418" y="236" font-size="11" fill="#3C5A55">time</text>
-          <!-- control trace: climbs steadily -->
-          <path class="trace control drawable" d="M48,200 C120,170 200,110 290,66 C340,42 390,32 436,28"/>
-          <!-- pcm trace: climbs then plateaus -->
-          <path class="trace pcm drawable" d="M48,200 C110,178 160,150 200,132 C250,110 300,104 350,102 C385,101 415,100 436,99"/>
-          <!-- plateau annotation -->
-          <line x1="220" y1="103" x2="436" y2="103" stroke="#3C5A55" stroke-width="1" stroke-dasharray="4 4"/>
-          <text x="228" y="128" font-size="11" fill="#0C2E2B" font-weight="500">melt plateau</text>
-          <text x="228" y="143" font-size="10" fill="#3C5A55">heat absorbed by melting wax</text>
+          <text x="378" y="236" font-size="11" fill="#3C5A55">0–20 min</text>
+          <!-- control trace (measured) -->
+          <path class="trace control drawable" d="M48.0,92.5 L57.5,81.2 L66.9,82.1 L76.4,85.9 L85.9,84.9 L95.3,83.1 L104.8,66.9 L114.2,61.3 L123.7,72.6 L133.2,77.4 L142.6,83.1 L152.1,83.1 L161.6,76.4 L171.0,67.9 L180.5,58.4 L190.0,51.8 L199.4,45.2 L208.9,43.3 L218.3,44.2 L227.8,44.2 L237.3,61.3 L246.7,89.7 L256.2,113.4 L265.7,128.5 L275.1,139.9 L284.6,147.5 L294.0,155.1 L303.5,158.8 L313.0,162.6 L322.4,166.4 L331.9,170.2 L341.4,174.0 L350.8,178.7 L360.3,182.5 L369.8,186.3 L379.2,187.3 L388.7,190.1 L398.1,192.9 L407.6,193.9 L417.1,193.9 L426.5,195.8 L436.0,196.7"/>
+          <!-- pcm trace (measured) -->
+          <path class="trace pcm drawable" d="M48.0,186.3 L57.5,181.6 L66.9,176.8 L76.4,171.2 L85.9,166.4 L95.3,163.6 L104.8,156.9 L114.2,152.2 L123.7,149.4 L133.2,146.5 L142.6,144.6 L152.1,143.7 L161.6,141.8 L171.0,138.9 L180.5,135.2 L190.0,132.3 L199.4,131.4 L208.9,128.5 L218.3,128.5 L227.8,129.5 L237.3,135.2 L246.7,142.7 L256.2,148.4 L265.7,153.2 L275.1,157.9 L284.6,161.7 L294.0,164.5 L303.5,166.4 L313.0,168.3 L322.4,169.3 L331.9,170.2 L341.4,172.1 L350.8,174.0 L360.3,176.8 L369.8,178.7 L379.2,179.7 L388.7,182.5 L398.1,184.4 L407.6,186.3 L417.1,187.3 L426.5,188.2 L436.0,190.1"/>
+          <!-- peak deltaT annotation -->
+          <line x1="213" y1="46" x2="213" y2="126" stroke="#3C5A55" stroke-width="1" stroke-dasharray="4 4"/>
+          <text x="222" y="80" font-size="11" fill="#0C2E2B" font-weight="500">9.1 °C cooler at peak</text>
+          <text x="222" y="95" font-size="10" fill="#3C5A55">41.6 °C vs 50.7 °C</text>
         </svg>
         <div class="legend">
-          <span class="k-heat"><i></i>conventional surface</span>
+          <span class="k-heat"><i></i>control panel</span>
           <span class="k-cool"><i></i>CoolStop PCM panel</span>
         </div>
-        <figcaption class="chead" style="margin-top:10px">*illustrative — measured curves published after Track 1 testing</figcaption>
+        <figcaption class="chead" style="margin-top:10px">Measured 05 Jul 2026 · readings every 15 s · full dataset in the repository</figcaption>
       </figure>
     </div>
   </div>
@@ -284,6 +303,35 @@ footer .fm{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing
 
       <div class="ice-note">
         It's the same reason a glass of ice water stays at 0&nbsp;°C until the last ice melts — latent heat absorption — shifted to a melting point that's useful at bus-stop temperatures.
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results">
+    <div class="wrap">
+      <p class="sec-eyebrow">Measured results · field test 05 Jul 2026</p>
+      <h2>Two identical panels. One filled with wax. 20 minutes of Singapore sun.</h2>
+      <p class="muted" style="max-width:46em">Two matching panel housings — one containing the sealed coconut/palm wax blend, one empty control — were placed side by side under direct early-afternoon sun, with surface temperature logged every 15 seconds by paired sensors on a microcontroller datalogger.</p>
+
+      <div class="stats">
+        <div class="stat"><div class="big cool">41.6&nbsp;°C</div><p>Peak PCM panel surface temperature — while the control panel beside it reached 50.7&nbsp;°C.</p></div>
+        <div class="stat"><div class="big">−9.1&nbsp;°C</div><p>Temperature difference at peak. The PCM panel ran 6.4–10.6&nbsp;°C cooler across the whole heating phase (mean −8.5&nbsp;°C).</p></div>
+        <div class="stat"><div class="big cool">0.88 → 0.20</div><p>PCM heating rate in °C/min, before and after ~40&nbsp;°C — the slowdown consistent with melt onset absorbing heat.</p></div>
+        <div class="stat"><div class="big">~15&nbsp;min</div><p>When shading ended the exposure, the PCM panel cooled more slowly and crossed the control — stored latent heat being released, as required for overnight reset.</p></div>
+      </div>
+
+      <div class="media-grid">
+        <figure>
+          <img src="media/field-test-photo.jpg" alt="Infrared thermometer reading 51.1 °C pointed at the outdoor test rig: two instrumented panels wired to a microcontroller datalogger in direct sun." loading="lazy">
+          <figcaption>IR spot-check of the control-side surface: 51.1&nbsp;°C — matching the logged 50.7&nbsp;°C peak</figcaption>
+        </figure>
+        <figure>
+          <video controls preload="none" poster="media/video-poster.jpg" playsinline>
+            <source src="media/field-test-video.mp4" type="video/mp4">
+          </video>
+          <figcaption>Field test rig under direct sun · 05 Jul 2026</figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -352,7 +400,7 @@ footer .fm{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing
           <div class="when">Track 1</div>
           <div>
             <h3>Material characterisation</h3>
-            <p>Heat-lamp and thermocouple testing of a sealed wax panel against a control surface — measuring melt onset temperature, plateau temperature and duration, temperature differential versus control, and overnight recovery time.</p>
+            <p>Side-by-side outdoor testing of a sealed wax panel against an identical control panel under direct sun, with paired sensors logging surface temperature every 15 seconds — capturing heating rates, peak temperatures, and heat-release behaviour on cooldown.</p>
           </div>
         </div>
         <div class="tl-item">
@@ -379,7 +427,7 @@ footer .fm{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing
       </div>
 
       <div class="status">
-        <div class="chead">A note on numbers</div>
+        <div class="chead">Open data</div>
         <p style="font-size:.97rem">Measured results — melt plateau temperature, differential versus a control surface, and plateau duration under heat-lamp conditions — will be published on this page. We would rather report real data carefully than illustrative data early.</p>
       </div>
     </div>
